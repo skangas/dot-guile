@@ -1,0 +1,24 @@
+;-*- mode: scheme -*-
+
+;; Readline support
+(use-modules (ice-9 readline))
+(activate-readline)
+(readline-enable 'history-file)
+(readline-set! history-length 10000)
+
+;; Guile hacking
+(define guile-root "wip/guile/")
+
+(define (guile-load file) (load (string-append guile-root file)))
+
+(define (load-python)
+  (guile-load "module/language/python3/commons.scm")
+  (guile-load "module/language/python3/parse.scm")
+  (guile-load "module/language/python3/impl.scm")
+  (guile-load "module/language/python3/compile-tree-il.scm")
+  (use-modules (language python3 compile-tree-il)))
+
+(define (test-python)
+  (guile-load "test-suite/lib.scm")
+  (guile-load "test-suite/tests/python3.test"))
+
